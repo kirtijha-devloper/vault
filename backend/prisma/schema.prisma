@@ -1,0 +1,78 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  passwords PasswordItem[]
+  documents DocumentItem[]
+  notes     NoteItem[]
+  shares    ShareLink[]
+}
+
+model PasswordItem {
+  id        String   @id @default(uuid())
+  title     String
+  website   String?
+  username  String
+  password  String   // Stored as AES-256-GCM encrypted string (iv:content:tag)
+  notes     String?  // Stored as AES-256-GCM encrypted string
+  category  String   @default("Passwords")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DocumentItem {
+  id          String   @id @default(uuid())
+  title       String
+  category    String   @default("Documents")
+  description String?
+  fileUrl     String
+  fileId      String   // Cloudinary public_id or local filename
+  fileSize    Int      // Size in bytes
+  fileType    String   // MIME type
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NoteItem {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   // Stored as AES-256-GCM encrypted string
+  category  String   @default("Notes")
+  color     String?  @default("#3B82F6") // Default accent color
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShareLink {
+  id                  String   @id @default(uuid())
+  token               String   @unique // Secure random token for sharing URL
+  itemId              String   // ID of PasswordItem, DocumentItem, or NoteItem
+  itemType            String   // "PASSWORD", "DOCUMENT", or "NOTE"
+  expiresAt           DateTime
+  isPasswordProtected Boolean  @default(false)
+  passwordHash        String?  // bcrypt hash of share password if protected
+  views               Int      @default(0)
+  userId              String
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
