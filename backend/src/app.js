@@ -30,7 +30,8 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/api', apiLimiter);
 
 // Serve static uploads folder
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+const uploadPath = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, '../uploads');
+app.use('/uploads', express.static(uploadPath));
 
 // Mount routes
 app.use('/api/auth', authRoutes);

@@ -27,7 +27,7 @@ if (useCloudinary) {
   });
 } else {
   // Fallback to local disk storage
-  const uploadDir = path.join(__dirname, '../../uploads');
+  const uploadDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, '../../uploads');
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
