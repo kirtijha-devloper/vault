@@ -1,7 +1,7 @@
 const prisma = require('../config/db');
 const cloudinary = require('cloudinary').v2;
-const path = require('path');
 const fs = require('fs');
+const { getUploadedFilePath } = require('../utils/uploadPaths');
 
 // @desc    Get all documents for logged in user
 // @route   GET /api/vault/documents
@@ -88,7 +88,7 @@ const deleteDocument = async (req, res) => {
       }
     } else {
       // Local disk deletion
-      const filePath = path.join(__dirname, '../../uploads', existingDoc.fileId);
+      const filePath = getUploadedFilePath(existingDoc.fileId);
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }

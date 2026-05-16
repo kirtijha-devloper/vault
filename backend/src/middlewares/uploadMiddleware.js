@@ -1,8 +1,8 @@
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const { ensureUploadDir } = require('../utils/uploadPaths');
 require('dotenv').config();
 
 // Check if Cloudinary is configured
@@ -27,11 +27,7 @@ if (useCloudinary) {
   });
 } else {
   // Fallback to local disk storage
-  const isServerless = process.env.NODE_ENV === 'production' || process.env.VERCEL || process.env.VERCEL_ENV || process.env.AWS_EXECUTION_ENV || process.env.AWS_LAMBDA_FUNCTION_NAME;
-  const uploadDir = isServerless ? '/tmp/uploads' : path.join(__dirname, '../../uploads');
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
+  const uploadDir = ensureUploadDir();
 
   storage = multer.diskStorage({
     destination: (req, file, cb) => {

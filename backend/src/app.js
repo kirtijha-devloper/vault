@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const path = require('path');
 const { apiLimiter } = require('./middlewares/rateLimiter');
+const { getUploadDir } = require('./utils/uploadPaths');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -30,9 +30,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/api', apiLimiter);
 
 // Serve static uploads folder
-const isServerless = process.env.NODE_ENV === 'production' || process.env.VERCEL || process.env.VERCEL_ENV || process.env.AWS_EXECUTION_ENV || process.env.AWS_LAMBDA_FUNCTION_NAME;
-const uploadPath = isServerless ? '/tmp/uploads' : path.join(__dirname, '../uploads');
-app.use('/uploads', express.static(uploadPath));
+app.use('/uploads', express.static(getUploadDir()));
 
 // Mount routes
 app.use('/api/auth', authRoutes);
