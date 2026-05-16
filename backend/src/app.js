@@ -30,7 +30,8 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/api', apiLimiter);
 
 // Serve static uploads folder
-const uploadPath = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, '../uploads');
+const isServerless = process.env.NODE_ENV === 'production' || process.env.VERCEL || process.env.VERCEL_ENV || process.env.AWS_EXECUTION_ENV || process.env.AWS_LAMBDA_FUNCTION_NAME;
+const uploadPath = isServerless ? '/tmp/uploads' : path.join(__dirname, '../uploads');
 app.use('/uploads', express.static(uploadPath));
 
 // Mount routes
