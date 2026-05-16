@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const { apiLimiter } = require('./middlewares/rateLimiter');
-const { getUploadDir } = require('./utils/uploadPaths');
+const { ensureUploadDir } = require('./utils/uploadPaths');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/api', apiLimiter);
 
 // Serve static uploads folder
-app.use('/uploads', express.static(getUploadDir()));
+app.use('/uploads', express.static(ensureUploadDir()));
 
 // Mount routes
 app.use('/api/auth', authRoutes);

@@ -6,31 +6,46 @@ function isEphemeralRuntime() {
   return Boolean(
     process.env.VERCEL ||
     process.env.VERCEL_ENV ||
+    process.env.LAMBDA_TASK_ROOT ||
     process.env.AWS_EXECUTION_ENV ||
     process.env.AWS_LAMBDA_FUNCTION_NAME
   );
 }
 
+function getTemporaryUploadDir() {
+  return path.join(os.tmpdir(), 'uploads');
+}
+
 function getUploadDir() {
   if (isEphemeralRuntime()) {
-    return path.join(os.tmpdir(), 'uploads');
+    return getTemporaryUploadDir();
   }
 
   return path.resolve(process.cwd(), 'backend', 'uploads');
 }
 
 function ensureUploadDir() {
-  const uploadDir = getUploadDir();
+  const preferredDir = getUploadDir();
 
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
+  try {
+    if (!fs.existsSync(preferredDir)) {
+      fs.mkdirSync(preferredDir, { recursive: true });
+    }
+
+    return preferredDir;
+  } catch (error) {
+    const fallbackDir = getTemporaryUploadDir();
+
+    if (!fs.existsSync(fallbackDir)) {
+      fs.mkdirSync(fallbackDir, { recursive: true });
+    }
+
+    return fallbackDir;
   }
-
-  return uploadDir;
 }
 
 function getUploadedFilePath(fileId) {
-  return path.join(getUploadDir(), fileId);
+  return path.join(ensureUploadDir(), fileId);
 }
 
 module.exports = {
