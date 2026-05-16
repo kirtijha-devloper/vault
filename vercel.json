@@ -1,41 +1,13 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          ".env",
-          "backend/.env",
-          "node_modules/.prisma/client/**",
-          "backend/node_modules/.prisma/client/**",
-          "node_modules/@prisma/client/**",
-          "backend/node_modules/@prisma/client/**",
-          "prisma/**",
-          "backend/prisma/**"
-        ]
-      }
+  "experimentalServices": {
+    "frontend": {
+      "entrypoint": "frontend",
+      "routePrefix": "/",
+      "framework": "vite"
     },
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/dist"
-      }
+    "backend": {
+      "entrypoint": "backend",
+      "routePrefix": "/api"
     }
-  ],
-  "routes": [
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  }
 }
