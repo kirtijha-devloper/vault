@@ -1,5 +1,5 @@
-const app = require('./src/app');
 require('dotenv').config();
+const app = require('./src/app');
 const { isEphemeralRuntime } = require('./src/utils/uploadPaths');
 
 const PORT = process.env.PORT || 5000;

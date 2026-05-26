@@ -4,13 +4,12 @@ const { protect } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
+// Protected routes for managing shares
+router.post('/create', protect, createShare);
+router.get('/', protect, getMyShares);
+router.delete('/revoke/:id', protect, revokeShare);
+
 // Public route for accessing shared items
 router.post('/:token', getSharedItem);
-
-// Protected routes for managing shares
-router.use(protect);
-router.post('/create', createShare);
-router.get('/', getMyShares);
-router.delete('/revoke/:id', revokeShare);
 
 module.exports = router;

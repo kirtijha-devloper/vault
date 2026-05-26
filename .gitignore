@@ -53,3 +53,6 @@ Thumbs.db
 
 # Uploads
 backend/uploads/
+
+# Local Prisma databases
+backend/prisma/*.db

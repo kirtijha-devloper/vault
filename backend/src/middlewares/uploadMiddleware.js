@@ -42,10 +42,11 @@ if (useCloudinary) {
 
 // File filter and size limit
 const fileFilter = (req, file, cb) => {
-  // Allow common document and image types
-  const allowedTypes = /jpeg|jpg|png|gif|pdf|doc|docx|txt|zip|xls|xlsx/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
+  // Validate extension and MIME separately so common office/text types pass reliably.
+  const allowedExts = /\.(jpeg|jpg|png|gif|pdf|doc|docx|txt|zip|xls|xlsx)$/i;
+  const allowedMimes = /^(image\/(jpeg|jpg|png|gif)|application\/pdf|text\/plain|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document|application\/zip|application\/x-zip-compressed|application\/vnd\.ms-excel|application\/vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet)$/i;
+  const extname = allowedExts.test(path.extname(file.originalname));
+  const mimetype = allowedMimes.test(file.mimetype);
 
   if (extname && mimetype) {
     return cb(null, true);
