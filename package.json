@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm --prefix frontend install && npm --prefix frontend run build && npm --prefix backend install --legacy-peer-deps && npx prisma generate",
-    "postinstall": "npm --prefix backend install --legacy-peer-deps && npx prisma generate"
+    "build": "npm --prefix frontend install && npm --prefix frontend run build && npm --prefix backend install --legacy-peer-deps && npm --prefix backend run prisma:generate",
+    "postinstall": "npm --prefix backend install --legacy-peer-deps && npm --prefix backend run prisma:generate"
   }
 }
