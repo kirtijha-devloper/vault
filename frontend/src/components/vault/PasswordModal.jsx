@@ -56,10 +56,10 @@ const PasswordModal = ({ isOpen, onClose, onSave, editingItem }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl transition-all animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl transition-all animate-in fade-in zoom-in-95 duration-200 flex flex-col">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-gray-50/50 dark:bg-[#1F2937]/30">
-          <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-[#1F2937]/30">
+          <h3 className="font-bold text-base sm:text-lg text-gray-900 dark:text-gray-100">
             {editingItem ? 'Edit Password' : 'Add New Password'}
           </h3>
           <button 
@@ -71,7 +71,7 @@ const PasswordModal = ({ isOpen, onClose, onSave, editingItem }) => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto">
           <div>
             <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Title *</label>
             <input 
@@ -123,7 +123,7 @@ const PasswordModal = ({ isOpen, onClose, onSave, editingItem }) => {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-1">
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Password *</label>
               <button 
                 type="button" 
@@ -165,7 +165,7 @@ const PasswordModal = ({ isOpen, onClose, onSave, editingItem }) => {
           </div>
 
           {/* Footer */}
-          <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3">
             <button 
               type="button" 
               onClick={onClose}

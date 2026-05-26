@@ -50,12 +50,12 @@ const ShareModal = ({ isOpen, onClose, shareItem, shareType }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl transition-all animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl transition-all animate-in fade-in zoom-in-95 duration-200 flex flex-col">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-gray-50/50 dark:bg-[#1F2937]/30">
-          <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-[#1F2937]/30">
+          <h3 className="font-bold text-base sm:text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2 min-w-0">
             <Lock className="w-5 h-5 text-brand-500" />
-            <span>Create Secure Share Link</span>
+            <span className="truncate">Create Secure Share Link</span>
           </h3>
           <button 
             onClick={handleClose}
@@ -66,11 +66,11 @@ const ShareModal = ({ isOpen, onClose, shareItem, shareType }) => {
         </div>
 
         {/* Form or Result */}
-        <div className="p-6">
-          <div className="mb-6 p-4 bg-gray-50 dark:bg-[#1F2937]/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex items-center justify-between">
-            <div>
+        <div className="p-4 sm:p-6 overflow-y-auto">
+          <div className="mb-6 p-4 bg-gray-50 dark:bg-[#1F2937]/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="min-w-0">
               <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider block mb-0.5">Sharing Item</span>
-              <span className="text-sm font-bold text-gray-800 dark:text-gray-200">{shareItem.title}</span>
+              <span className="text-sm font-bold text-gray-800 dark:text-gray-200 break-words">{shareItem.title}</span>
             </div>
             <span className="px-2.5 py-1 bg-brand-500/10 text-brand-500 dark:text-brand-400 rounded-lg text-xs font-semibold uppercase">
               {shareType}
@@ -110,7 +110,7 @@ const ShareModal = ({ isOpen, onClose, shareItem, shareType }) => {
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-3">
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3">
                 <button 
                   type="button" 
                   onClick={handleClose}
@@ -135,17 +135,17 @@ const ShareModal = ({ isOpen, onClose, shareItem, shareType }) => {
               </div>
               <div>
                 <h4 className="font-bold text-lg text-gray-900 dark:text-gray-100 mb-1">Share Link Ready!</h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500 dark:text-gray-400 break-words">
                   This link will automatically expire on {new Date(shareData.expiresAt).toLocaleString()}.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-[#1F2937] border border-gray-200 dark:border-gray-700 rounded-2xl max-w-full overflow-hidden">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 bg-gray-50 dark:bg-[#1F2937] border border-gray-200 dark:border-gray-700 rounded-2xl max-w-full overflow-hidden">
                 <input 
                   type="text" 
                   readOnly 
                   value={shareData.shareUrl} 
-                  className="bg-transparent text-xs text-gray-800 dark:text-gray-200 font-mono flex-1 pl-3 pr-1 focus:outline-none truncate"
+                  className="bg-transparent text-xs text-gray-800 dark:text-gray-200 font-mono flex-1 pl-3 pr-1 focus:outline-none min-w-0 break-all"
                 />
                 <button 
                   onClick={handleCopy}

@@ -200,11 +200,11 @@ const Dashboard = ({ activeCategory, searchQuery }) => {
   const totalFilteredCount = filteredPasswords.length + filteredDocuments.length + filteredNotes.length;
 
   return (
-    <main className="flex-1 p-6 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto">
+    <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto">
       {/* Top Action Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white dark:bg-[#111827] p-6 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2.5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 sm:mb-8 bg-white dark:bg-[#111827] p-4 sm:p-6 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2.5 flex-wrap">
             <span>{activeCategory === 'All' ? 'All Vault Items' : activeCategory}</span>
             <span className="text-xs font-semibold px-2.5 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-xl">
               {isSharesTab ? shares.length : totalFilteredCount}
@@ -219,24 +219,24 @@ const Dashboard = ({ activeCategory, searchQuery }) => {
 
         {/* Action Buttons */}
         {!isSharesTab && (
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:flex items-stretch gap-3 w-full md:w-auto">
             <button
               onClick={() => { setEditingPassword(null); setIsPasswordModalOpen(true); }}
-              className="px-4 py-2.5 bg-gradient-to-r from-brand-500 to-indigo-600 hover:from-brand-600 hover:to-indigo-700 text-white rounded-xl font-medium text-xs shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2"
+              className="px-4 py-2.5 bg-gradient-to-r from-brand-500 to-indigo-600 hover:from-brand-600 hover:to-indigo-700 text-white rounded-xl font-medium text-xs shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 min-h-[44px]"
             >
               <Plus className="w-4 h-4" />
               <span>Add Password</span>
             </button>
             <button
               onClick={() => setIsDocumentModalOpen(true)}
-              className="px-4 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium text-xs shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2"
+              className="px-4 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium text-xs shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 min-h-[44px]"
             >
               <Upload className="w-4 h-4" />
               <span>Upload Document</span>
             </button>
             <button
               onClick={() => { setEditingNote(null); setIsNoteModalOpen(true); }}
-              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium text-xs shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2"
+              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium text-xs shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 min-h-[44px]"
             >
               <Plus className="w-4 h-4" />
               <span>Add Note</span>
@@ -340,25 +340,25 @@ const Dashboard = ({ activeCategory, searchQuery }) => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {shares.map((share) => (
-              <div key={share.id} className="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+              <div key={share.id} className="glass-card rounded-2xl p-4 sm:p-6 flex flex-col justify-between group min-w-0">
                 <div>
-                  <div className="flex items-center justify-between gap-4 mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <span className="px-2.5 py-1 bg-brand-500/10 text-brand-500 dark:text-brand-400 rounded-lg text-xs font-semibold uppercase">
                       {share.itemType}
                     </span>
-                    <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
+                    <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 min-w-0">
                       <Clock className="w-3.5 h-3.5" />
-                      <span>Expires {new Date(share.expiresAt).toLocaleDateString()}</span>
+                      <span className="truncate">Expires {new Date(share.expiresAt).toLocaleDateString()}</span>
                     </div>
                   </div>
 
                   <div className="space-y-3 bg-gray-50/50 dark:bg-[#111827]/50 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-col gap-1.5">
                       <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider block">Share Token</span>
-                      <span className="text-xs font-mono font-medium text-gray-800 dark:text-gray-200 truncate">{share.token}</span>
+                      <span className="text-xs font-mono font-medium text-gray-800 dark:text-gray-200 break-all">{share.token}</span>
                     </div>
 
-                    <div className="flex items-center justify-between gap-2 pt-2 border-t border-gray-200/60 dark:border-gray-800/80">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-2 border-t border-gray-200/60 dark:border-gray-800/80">
                       <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider block">Protection</span>
                       <span className="text-xs font-medium flex items-center gap-1 text-gray-800 dark:text-gray-200">
                         {share.isPasswordProtected ? <Lock className="w-3 h-3 text-amber-500" /> : <Eye className="w-3 h-3 text-green-500" />}
@@ -373,19 +373,19 @@ const Dashboard = ({ activeCategory, searchQuery }) => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800/80 flex items-center justify-between gap-2">
+                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
                   <a 
                     href={`/share/${share.token}`} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-xl font-medium text-xs transition-colors flex items-center gap-1.5"
+                    className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-xl font-medium text-xs transition-colors flex items-center justify-center gap-1.5"
                   >
                     <span>Visit Link</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                   <button 
                     onClick={() => handleRevokeShare(share.id)} 
-                    className="px-4 py-2 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 rounded-xl font-medium text-xs transition-colors flex items-center gap-1.5"
+                    className="px-4 py-2 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 rounded-xl font-medium text-xs transition-colors flex items-center justify-center gap-1.5"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     <span>Revoke Access</span>
